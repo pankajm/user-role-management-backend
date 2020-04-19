@@ -1,16 +1,29 @@
 const express = require('express');
 const app = express();
-
+const bodyParser = require('body-parser');
+const shortid = require('shortid');
+ 
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(express.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded())
+// parse application/json
+app.use(bodyParser.json())
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  next();
+});
 
 let users = [
-  {id:1, name:'John Williamson', email:'john10@gmail.com', role:'Admin'},
-  {id:2, name:'Will Smith', email:'willS@gmail.com', role:'Supervisor'},
-  {id:3, name:'Donald wislley', email:'donwislley@yahoo.com', role:'Client'}
+  {id:shortid.generate(), name:'John Williamson', email:'john10@gmail.com', role:'Admin'},
+  {id:shortid.generate(), name:'Will Smith', email:'willS@gmail.com', role:'Supervisor'},
+  {id:shortid.generate(), name:'Donald wislley', email:'donwislley@yahoo.com', role:'Client'}
 ]
 
 app.get('/api/users', (req, res, next) => {
@@ -27,6 +40,7 @@ app.put('/api/users/:id', (req, res, next) => {
 
 app.post('/api/users', (req, res, next) => {
   let user = req.body;
+  user.id = shortid.generate();
   users.push(user);
   console.log(users);
   return res.status(200).send('User added successfully');
