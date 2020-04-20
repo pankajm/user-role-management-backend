@@ -5,6 +5,9 @@ const Joi = require('@hapi/joi');
 
 
 /** Storing roles in array data structures for easy searching */
+/** Stored few records for testing purpose, 
+ * app will maintain this state if server crashes and restarts */
+
 let roles = [
   {id:shortid.generate(), role: 'Admin'}, 
   {id:shortid.generate(), role: 'Supervisor'}, 

@@ -5,6 +5,9 @@ const Joi = require('@hapi/joi');
 
 
 /** Storing users in array data structures for easy searching */
+/** Stored few records for testing purpose, 
+ * app will maintain this state if server crashes and restarts */
+
 let users = [
   {id:shortid.generate(), name:'John Williamson', email:'john10@gmail.com', role:'Admin'},
   {id:shortid.generate(), name:'Will Smith', email:'willS@gmail.com', role:'Supervisor'},
